@@ -12,7 +12,6 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
-  "homepage":"https://github.com/Viayvasanth/Blog-deploy",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.2",
