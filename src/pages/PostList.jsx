@@ -10,10 +10,11 @@ function PostList() {
   const [activeTab, setActiveTab] = useState('posts');
   const [posts, setPosts] = useState([]);
 
+  const API = "https://blog-uvxx.onrender.com";
 
   const fetchpost = async () => {
     try {
-      const res = await axios.get('https://blog-uvxx.onrender.com/api/blogs');
+      const res = await axios.get(`${API}/api/blogs`);
       console.log('API Response:', res.data);
       setPosts(res.data);
     } catch(err) {
@@ -54,7 +55,7 @@ function PostList() {
                     <div className="flex flex-col md:flex-row">
                       <div className="md:w-2/4">
                         <img className=" mb-2 w-full h-48 md:h-full object-cover "
-                          src={post.image}
+                          src={`${API}/uploads/${post.image}`}
                         />
                       </div>
                       <div className="p-6 md:w-3/4">

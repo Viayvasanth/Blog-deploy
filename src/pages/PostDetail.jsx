@@ -4,6 +4,7 @@ import axios from 'axios';
 import Header from '../components/header';
 import Footer from '../components/Footer';
 
+const API = "https://blog-uvxx.onrender.com";
 
 function PostDetail() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function PostDetail() {
 
     const fetchPostDetail = async () => {
       try {
-        const res = await axios.get(`https://blog-uvxx.onrender.com/api/blogs/${id}`);
+        const res = await axios.get(`${API}/api/blogs/${id}`);
         setPost(res.data);
       } 
       catch(err) {
@@ -54,7 +55,7 @@ function PostDetail() {
               </div>
 
               <img 
-                src={post.image} 
+                src={`${API}/uploads/${post.image}`} 
                 alt={post.title}
                 className="w-full md:h-140 object-cover rounded mb-8"
               />
