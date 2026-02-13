@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 const API = "https://blog-uvxx.onrender.com";
 
 function PostDetail() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +15,7 @@ function PostDetail() {
 
     const fetchPostDetail = async () => {
       try {
-        const res = await axios.get(`${API}/api/blogs/${id}`);
+        const res = await axios.get(`${API}/api/blogs/${slug}`);
         setPost(res.data);
       } 
       catch(err) {
@@ -37,6 +37,9 @@ function PostDetail() {
  
   return (
     <>
+
+      
+    
       <div className="min-h-screen dark:bg-gray-300">
         <Header 
         menuOpen={menuOpen} 
@@ -73,7 +76,7 @@ function PostDetail() {
                       <div key={idx} className="bg-gray-100 rounded-lg p-6">
                         <h3 className="text-xl font-bold mb-4 text-blue-600">{example.title}</h3>
                         <pre className="bg-gray-900 text-green-400 p-4 rounded overflow-x-auto">
-                          <code>{example.code}</code>
+                        <code>{example.code}</code>
                         </pre>
                       </div>
                     ))}

@@ -9,24 +9,34 @@ function PostList() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('posts');
   const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState(null);
+
 
   const API = "https://blog-uvxx.onrender.com";
 
-  const fetchpost = async () => {
+
+  const limit = 3;
+
+
+   // Fetch from your database
+   useEffect(() => {
+    fetchpost(page);
+  }, [page]);
+
+  const fetchpost = async (page) => {
     try {
-      const res = await axios.get(`${API}/api/blogs`);
+      const res = await axios.get(`${API}/api/blogs?page=${page}&limit=${limit}`);
       console.log('API Response:', res.data);
-      setPosts(res.data);
+      setPosts(res.data.data);
+      setPagination(res.data.pagination);
     } catch(err) {
       console.error('API Error:', err.message);
     }
   };
   
 
-  // Fetch from your database
-  useEffect(() => {
-        fetchpost();
-  }, []);
+ 
 
   const tabs = ['posts', 'about', 'contact'];
 
@@ -48,10 +58,11 @@ function PostList() {
           {activeTab === 'posts' && (
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-bold mb-8">Latest Post</h1>
+              {/* <h1>{slug}</h1> */}
 
               <div className="space-y-6">
                 {posts.map((post) => (
-                  <div key={post._id} className="bg-white rounded-lg shadow overflow-hidden">
+                  <div key={post.slug} className="bg-white rounded-lg shadow overflow-hidden">
                     <div className="flex flex-col md:flex-row">
                       <div className="md:w-2/4">
                         <img className=" mb-2 w-full h-48 md:h-full object-cover "
@@ -60,9 +71,9 @@ function PostList() {
                       </div>
                       <div className="p-6 md:w-3/4">
                         <h3 className="text-xl font-bold mb-2">{post.title}</h3>
-                        <p className=''>{post.content.substr(0,49)}...</p>
-                        <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                        <Link to={`/blogs/${post._id}`}                 
+                        <p className=''>{post.content.substr(0,50)}...</p>
+                        <p className="text-gray-600 mb-4">{post.excerpt}...</p>
+                        <Link to={`/blogs/${post.slug}`}                 
                           className="inline-block px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
                           Read More
                         </Link>
@@ -71,8 +82,30 @@ function PostList() {
                   </div>
                 ))}
               </div>
+
+              
+            {/* Pagination controls */}
+            <div className='flex mt-10 gap-4 justify-around items-center'>
+              <button className='border-none rounded bg-red-600 p-2 cursor-pointer text-white'
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}>
+                Previous
+              </button>
+
+              <span className='border-none rounded bg-orange-500 p-2 text-white'>
+                Page {pagination?.currentPage} of {pagination?.totalPages}
+              </span>
+
+              <button className='border-none rounded bg-green-700 p-2 cursor-pointer text-white'
+                disabled={!pagination?.hasNextPage}
+                onClick={() => setPage(page + 1)}>
+                Next
+              </button>
+            </div>
             </div>
           )}
+
+          
 
           {activeTab === 'about' && (
             <div className="max-w-3xl mx-auto">
@@ -89,6 +122,7 @@ function PostList() {
           )}
         </div>
         </main>
+
 
           <Footer/>
 
