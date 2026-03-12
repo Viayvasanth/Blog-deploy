@@ -13,9 +13,9 @@ function PostList() {
   const [pagination, setPagination] = useState(null);
 
 
-  // const API = "https://blog-uvxx.onrender.com";
+  const API = "https://blog-uvxx.onrender.com";
 
-  const API = "http://localhost:4000";
+  // const API = "http://localhost:4000";
 
 
   const limit = 3;
